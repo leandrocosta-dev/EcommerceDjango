@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+
+<main class="principal"></main>
+    <section class="conta">
+
+      <div class="conta__container">
+        <div class="checkout__titulos">
+          <p class="checkout__titulo">Criar Conta</p>
+        </div>
+        {% if alterado %}
+        <p>Conta criada com sucesso</p>
+        {% endif%}
+
+        {% if erro == "email_invalido" %}
+        <p>Email inválido</p>
+        {% endif %}
+
+        {% if erro == "usuario_existente" %}
+        <p>Email já cadastrado, faça o login</p>
+        {% endif %}
+
+        {% if erro == "senha_diferente" %}
+        <p>Digite as senhas novamente</p>
+        {% endif %}
+
+        {% if erro == "preenchimento" %}
+        <p>Preencha todos os campos</p>
+        {% endif %}
+
+        <form
+          class="conta__form"
+          action="{% url 'criar_conta' %}"
+          method="post"
+        >{% csrf_token %}
+        <div class="conta__item conta__item--email">
+            <label for="email">E-mail</label>
+            <input type="email" name="email" placeholder="Digite seu email" value="{{ request.user.email }}" />
+          </div>
+
+          <div class="conta__item">
+            <label for="nova_senha">Nova Senha</label>
+            <input type="password" name="senha" placeholder="Digite sua senha"/>
+          </div>
+
+          <div class="conta__item">
+            <label for="nova_senha_confirmacao">Confirme Sua Senha</label>
+            <input type="password" name="confirmacao_senha" placeholder="Confirme sua senha" />
+          </div>
+
+          <button class="subtotal__botao" type="submit">Criar Conta</button>
+        </form>
+        <a href="{% url 'fazer_login' %}">Já tem uma conta? Fazer Login</a>
+<a href="#">Esqueci minha senha</a>
+      </div>
+    </section>
+  </main>
+
+{% endblock %}
